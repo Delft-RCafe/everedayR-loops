@@ -27,7 +27,7 @@ Training materials for R Cafe session on for loops
     -  `apply()`, `lapply()`, `tapply()`, `sapply()`, `vapply()`, `mapply`. All of them?
 - EXAMPLES 
   - Plotting multiple variables from a dataset in a loop: https://www.geeksforgeeks.org/for-loop-in-r/
-  - Example 2: Making operations on multiple files with a loop https://datacarpentry.github.io/semester-biology/materials/for-loops-R/
+  - Making operations on multiple files with a loop https://datacarpentry.github.io/semester-biology/materials/for-loops-R/
  
 - EXERCISES
   - [R tutorials - apply etc](http://r-tutorials.com/r-exercises-apply-family-functions/)
