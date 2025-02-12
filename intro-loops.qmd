@@ -1,13 +1,17 @@
 ---
 title: "Introduction to Loops in R"
-author: "Aleks, Selin, Bjorn"
+author: "R Café @ TU Delft"
 date: "`r Sys.Date()`"
 format: html
 ---
 
 ## Introduction
 
-Loops are a fundamental control structure in R that allow us to execute a block of code multiple times. They are useful when dealing with repetitive tasks such as iterating over a vector or performing calculations repeatedly. In this document, we will explore the mechanics of loops in R and discuss how the iterated value is stored in the global environment.
+Loops in R allow us to execute a block of code multiple times.
+They are useful when dealing with repetitive tasks such as 
+performing same calculations repeatedly.
+In this document, we will explore the mechanics of loops in R 
+and discuss for what it can be used.
 
 ## Mechanics of a Loop
 
@@ -23,33 +27,65 @@ R supports several types of loops, with `for` loops being the most common.
 
 ```{r}
 # Example of a for loop in R
-for (i in 1:5) {
-  print(paste("Iteration number:", i))
+for (iteration in 1:5) {
+  print(paste("Iteration number:", iteration))
 }
 ```
 
+In this example:
+- The variable `iteration` takes values from `1` to `5`.
+- The `print()` function outputs the current value of `iteration`.
+- The loop runs five times, once for each value in `1:5`.
+
+
 ## Iterating on Elements of a Vector
+
+We can iterate along the vectors
+
 
 ```{r}
 fruits <- c("apple", "banana", "cherry")
+
 for (fruit in fruits) {
   print(fruit)
 }
 ```
 
+## The Iterated Value in the Global Environment
+
+When using a `for` loop, the loop variable 
+(e.g., `fruit` in the example above)
+is assigned in the **global environment**, 
+meaning it remains available even after the loop has finished executing.
+
+```{r}
+print(fruit)
+```
+
+
+Here, `fruit` retains its last assigned value (`"cherry"`) in the global environment. This behavior is important to consider when working with loops in R, as it can lead to unintended side effects if the loop variable is used later in the code.
+
+
 ## Iterating on Indexes of a Vector
+Often it is useful to iterate accross the indices instead of values of the vector:
 
 ```{r}
 numbers <- c(10, 20, 30)
 
 seq_along(numbers)
+1:length(numbers)
 
-for (i in seq_along(numbers)) {
-  print(paste("Index:", i, "Value:", numbers[i]))
+for (index in seq_along(numbers)) {
+  print(paste("Index:", index, "Value:", numbers[index]))
 }
 ```
 
+
+
 ## Storing Results of a Loop
+
+Loops are like Las Vegas - what happens in a for loops, stays in a for loop
+...unless we store it somewhere
 
 ```{r}
 squares <- numeric(5)
@@ -57,16 +93,6 @@ for (i in 1:5) {
   squares[i] <- i^2
 }
 print(squares)
-```
-
-## Control Statements: `next` and `break`
-
-```{r}
-for (i in 1:10) {
-  if (i %% 2 == 0) next  # Skip even numbers
-  if (i > 7) break  # Stop loop if i > 7
-  print(i)
-}
 ```
 
 ## `if..else` in a Loop
@@ -80,6 +106,30 @@ for (i in 1:5) {
   }
 }
 ```
+
+## Control Statements: `next` and `break`
+There are some statements we can use to control the for loop behaviour
+
+```{r}
+for (i in 1:10) {
+  if (i %% 2 == 0) next  # Skip even numbers
+  if (i > 7) break  # Stop loop if i > 7
+  print(i)
+}
+```
+
+## Nested `for` loops
+
+``` {r}
+# Outer loop
+for (i in 1:3) {
+  # Inner loop
+  for (j in 1:3) {
+    print(paste("i =", i, "and j =", j))
+  }
+}
+```
+
 
 ## `while` Loop
 
@@ -96,10 +146,25 @@ while (counter <= 5) {
 The `apply()` family provides alternatives to loops for applying functions over elements of vectors, matrices, or lists.
 
 ```{r}
-mat <- matrix(1:9, nrow=3)
-row_sums <- apply(mat, 1, sum) # Sum over rows
-col_sums <- apply(mat, 2, sum) # Sum over columns
+
+data <- USArrests[1:10, c("Murder", "Assault", "Rape")]
+
+sum_by_row <- apply(data, 1, sum) # Sum over rows
+sum_by_col <- apply(data, 2, sum) # Sum over columns
 ```
+
+```{r}
+
+df_list <- list(iris, USArrests, mtcars )
+
+lapply(df_list, function(df) nrow(df) )
+
+```
+
+```{r}
+sapply(df_list, function(df) nrow(df) )
+```
+
 
 ## Interesting Use Cases for Loops
 
@@ -116,7 +181,7 @@ for (i in 1:3) {
 
 ### Performing Operations on Multiple Files
 
-```{r}
+```r
 file_list <- list.files(path = "data", pattern = "*.csv", full.names = TRUE)
 for (file in file_list) {
   data <- read.csv(file)
@@ -125,8 +190,8 @@ for (file in file_list) {
 ```
 
 ## Exercises 
-- [R tutorials - apply etc](http://r-tutorials.com/r-exercises-apply-family-functions/)
 - [R Tutorials - For loops  and more](http://r-tutorials.com/r-exercises-71-80-loops-loop-loop-repeat-loop-ifelse-statements-r/)
+- [R tutorials - apply etc](http://r-tutorials.com/r-exercises-apply-family-functions/)
 
 
 ## Conclusion
