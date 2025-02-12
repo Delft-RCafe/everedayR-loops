@@ -1,0 +1,140 @@
+---
+title: "Introduction to Loops in R"
+author: "Aleks, Selin, Bjorn"
+date: "`r Sys.Date()`"
+format: html
+---
+
+## Introduction
+
+Loops are a fundamental control structure in R that allow us to execute a block of code multiple times. They are useful when dealing with repetitive tasks such as iterating over a vector or performing calculations repeatedly. In this document, we will explore the mechanics of loops in R and discuss how the iterated value is stored in the global environment.
+
+## Mechanics of a Loop
+
+A loop typically consists of three main components:
+
+1. **Initialization**: Setting up the loop variable.
+2. **Condition**: Defining when the loop should stop.
+3. **Iteration**: Updating the loop variable each cycle.
+
+R supports several types of loops, with `for` loops being the most common.
+
+### Example: `for` Loop in R
+
+```{r}
+# Example of a for loop in R
+for (i in 1:5) {
+  print(paste("Iteration number:", i))
+}
+```
+
+## Iterating on Elements of a Vector
+
+```{r}
+fruits <- c("apple", "banana", "cherry")
+for (fruit in fruits) {
+  print(fruit)
+}
+```
+
+## Iterating on Indexes of a Vector
+
+```{r}
+numbers <- c(10, 20, 30)
+
+seq_along(numbers)
+
+for (i in seq_along(numbers)) {
+  print(paste("Index:", i, "Value:", numbers[i]))
+}
+```
+
+## Storing Results of a Loop
+
+```{r}
+squares <- numeric(5)
+for (i in 1:5) {
+  squares[i] <- i^2
+}
+print(squares)
+```
+
+## Control Statements: `next` and `break`
+
+```{r}
+for (i in 1:10) {
+  if (i %% 2 == 0) next  # Skip even numbers
+  if (i > 7) break  # Stop loop if i > 7
+  print(i)
+}
+```
+
+## `if..else` in a Loop
+
+```{r}
+for (i in 1:5) {
+  if (i %% 2 == 0) {
+    print(paste(i, "is even"))
+  } else {
+    print(paste(i, "is odd"))
+  }
+}
+```
+
+## `while` Loop
+
+```{r}
+counter <- 1
+while (counter <= 5) {
+  print(paste("Counter:", counter))
+  counter <- counter + 1
+}
+```
+
+## Brief Introduction to `apply()` Family of Functions
+
+The `apply()` family provides alternatives to loops for applying functions over elements of vectors, matrices, or lists.
+
+```{r}
+mat <- matrix(1:9, nrow=3)
+row_sums <- apply(mat, 1, sum) # Sum over rows
+col_sums <- apply(mat, 2, sum) # Sum over columns
+```
+
+## Interesting Use Cases for Loops
+
+### Creating Multiple Plots
+
+```{r}
+library(ggplot2)
+for (i in 1:3) {
+  df <- data.frame(x = rnorm(100), y = rnorm(100))
+  p <- ggplot(df, aes(x, y)) + geom_point() + ggtitle(paste("Plot", i))
+  print(p)
+}
+```
+
+### Performing Operations on Multiple Files
+
+```{r}
+file_list <- list.files(path = "data", pattern = "*.csv", full.names = TRUE)
+for (file in file_list) {
+  data <- read.csv(file)
+  print(paste("Processing file:", file))
+}
+```
+
+## Exercises 
+- [R tutorials - apply etc](http://r-tutorials.com/r-exercises-apply-family-functions/)
+- [R Tutorials - For loops  and more](http://r-tutorials.com/r-exercises-71-80-loops-loop-loop-repeat-loop-ifelse-statements-r/)
+
+
+## Conclusion
+
+Loops in R are powerful tools for iterating over data structures and automating repetitive tasks. However, it's crucial to remember that the loop variable remains in the global environment, which may affect later computations. Understanding these mechanics helps in writing efficient and predictable R code.
+
+---
+
+### Further Reading
+- `?for` in R Documentation
+- [R for Data Science - Iteration](https://r4ds.had.co.nz/iteration.html)
